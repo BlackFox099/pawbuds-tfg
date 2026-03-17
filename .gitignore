@@ -1,0 +1,62 @@
+#BACKEND
+
+#Dependencias
+/backend/node_modules/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Archivos de compilación
+/backend/dist/
+dist/
+
+# Variables de entorno
+.env
+.env.*.local
+*.pem
+
+# Prisma local database
+*.db
+*.db-journal
+
+#----------------------x----------------------
+
+#FRONTEND
+
+# Archivos de compilación y binarios de Android
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+/android/build/
+/android/app/build/
+build/
+bin/
+gen/
+out/
+
+# Caché de Gradle
+.gradle/
+/android/.gradle/
+
+# Archivos locales de configuración
+local.properties
+/android/local.properties
+
+#----------------------x----------------------
+
+#SO e IDE
+
+# IntelliJ IDEA / Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Visual Studio Code
+.vscode/
+
+# Mac / Windows basura
+.DS_Store
+Thumbs.db
