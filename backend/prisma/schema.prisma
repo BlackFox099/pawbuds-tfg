@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TipoPaseo {
+  PaseoCorto //Al rededor del edificio (15/20 minutos)
+  PaseoMedio //Al rededor del barrio o el parque (30/45 minutos)
+  PaseoLargo //Al rededor de la ciudad (60 minutos o más)
+  PaseoEspecial //Paseos personalizados según las necesidades del perro ( ejercicio intenso, socialización...)
+}
+
+enum HorarioPaseo {
+  Madrugada // de 6 a 9 am
+  Mañana // de 9 am a 12 pm
+  Mediodia // de 12 pm a 3 pm
+  Tarde // de 3 pm a 6 pm
+  PuestaSol // de 6 pm a 9 am
+  Noche // de 9 pm a 6 am
+}
+
+enum Temperamento {
+  Tranquilo
+  Activo
+  Sociable
+  Timido
+  Agresivo
+}
+
+enum TipoMensaje {
+  TEXTO
+  IMAGEN
+}
+
+model Usuario {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  contrasena     String
+  nombre_usuario String
+  fecha_creacion DateTime @default(now())
+  es_admin       Boolean  @default(false)
+  activo         Boolean  @default(true)
+
+  dueno    Dueno?
+  mensajes Mensaje[]
+}
+
+model Dueno {
+  id               String         @id @default(uuid())
+  nombre_completo  String
+  biografia        String?
+  fecha_nacimiento DateTime?
+  tipo_paseo       TipoPaseo[] //Un dueño puede tener varios tipos de paseo 
+  horario_paseo    HorarioPaseo[] //Un dueño puede tener varios horarios (a lo mejor deberia ser mas especifico)
+
+  usuarioId String  @unique
+  usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  perros Perro[] // Un dueño tiene muchos perros
+}
+
+model Perro {
+  id               String    @id @default(uuid())
+  nombre           String
+  fecha_nacimiento DateTime?
+  temperamento     Temperamento?
+  chuche_favorita  String?
+
+  duenoId String
+  dueno   Dueno  @relation(fields: [duenoId], references: [id], onDelete: Cascade)
+}
+
+model Mensaje {
+  id              String   @id @default(uuid())
+  texto           String?
+  tipo            TipoMensaje
+  url_adjunto     String?
+  fecha_envio     DateTime @default(now())
+
+  // Clave Foránea a Usuario (El que envía)
+  remitenteId     String
+  remitente       Usuario  @relation(fields: [remitenteId], references: [id])
+}
