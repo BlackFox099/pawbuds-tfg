@@ -35,6 +35,19 @@ enum TipoMensaje {
   IMAGEN
 }
 
+enum TipoSwipe {
+  LIKE
+  DISLIKE
+}
+
+enum TipoReporte {
+  COMPORTAMIENTO_INAPROPIADO
+  CONTENIDO_INAPROPIADO
+  SPAM
+  SUPLANTACION_DE_IDENTIDAD
+  OTRO
+}
+
 model Usuario {
   id             String   @id @default(uuid())
   email          String   @unique
@@ -44,8 +57,18 @@ model Usuario {
   es_admin       Boolean  @default(false)
   activo         Boolean  @default(true)
 
-  dueno    Dueno?
-  mensajes Mensaje[]
+  dueno Dueno?
+
+  swipesEnviados  Swipe[] @relation("swipesEnviados")
+  swipesRecibidos Swipe[] @relation("swipesRecibidos")
+
+  reportesRecibidos Reporte[] @relation("reportesRecibidos")
+  reportesEnviados  Reporte[] @relation("reportesEnviados")
+  reportesRevisados Reporte[] @relation("reportesRevisados")
+
+  matches Match[]
+
+  mensajesEnviados Mensaje[]
 }
 
 model Dueno {
@@ -63,7 +86,7 @@ model Dueno {
 }
 
 model Perro {
-  id               String    @id @default(uuid())
+  id               String        @id @default(uuid())
   nombre           String
   fecha_nacimiento DateTime?
   temperamento     Temperamento?
@@ -73,14 +96,63 @@ model Perro {
   dueno   Dueno  @relation(fields: [duenoId], references: [id], onDelete: Cascade)
 }
 
-model Mensaje {
-  id              String   @id @default(uuid())
-  texto           String?
-  tipo            TipoMensaje
-  url_adjunto     String?
-  fecha_envio     DateTime @default(now())
+model Swipe {
+  id    String    @id @default(uuid())
+  tipo  TipoSwipe
+  fecha DateTime  @default(now())
 
-  // Clave Foránea a Usuario (El que envía)
-  remitenteId     String
-  remitente       Usuario  @relation(fields: [remitenteId], references: [id])
+  usuarioEnviadoId  String
+  usuarioEnviado    Usuario @relation(name: "swipesEnviados", fields: [usuarioEnviadoId], references: [id], onDelete: Cascade)
+  usuarioRecibidoId String
+  usuarioRecibido   Usuario @relation(name: "swipesRecibidos", fields: [usuarioRecibidoId], references: [id], onDelete: Cascade)
+}
+
+model Reporte {
+  id          String      @id @default(uuid())
+  tipo        TipoReporte
+  descripcion String?
+  fecha       DateTime    @default(now())
+
+  usuarioReportadoId String
+  usuarioReportado   Usuario @relation(name: "reportesRecibidos", fields: [usuarioReportadoId], references: [id], onDelete: Cascade)
+
+  usuarioReportanteId String
+  usuarioReportante   Usuario @relation(name: "reportesEnviados", fields: [usuarioReportanteId], references: [id], onDelete: Cascade)
+
+  usuarioRevisadorId String?
+  usuarioRevisador   Usuario? @relation(name: "reportesRevisados", fields: [usuarioRevisadorId], references: [id], onDelete: Cascade)
+}
+
+model Match {
+  id    String    @id @default(uuid())
+  fecha DateTime  @default(now())
+
+  usuariosId String[]
+  usuarios   Usuario @relation(fields: [usuariosId], references: [id], onDelete: Cascade)
+
+  chat Chat?
+}
+
+//duda, donde deberia guardarse esto
+model Chat {
+  id    String    @id @default(uuid())
+  fecha_creacion  DateTime  @default(now())
+  matchId String  @unique
+  match   Match   @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  mensajes Mensaje[]
+}
+
+model Mensaje {
+  id          String      @id @default(uuid())
+  texto       String?
+  tipo        TipoMensaje
+  url_adjunto String?
+  fecha_envio DateTime    @default(now())
+
+  remitenteId String
+  remitente   Usuario @relation(fields: [remitenteId], references: [id])
+
+  chatId String
+  chat   Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade)
 }
