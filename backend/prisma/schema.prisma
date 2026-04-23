@@ -48,6 +48,11 @@ enum TipoReporte {
   OTRO
 }
 
+enum TipoFoto {
+  DUENO
+  PERRO
+}
+
 model Usuario {
   id             String   @id @default(uuid())
   email          String   @unique
@@ -66,7 +71,8 @@ model Usuario {
   reportesEnviados  Reporte[] @relation("reportesEnviados")
   reportesRevisados Reporte[] @relation("reportesRevisados")
 
-  matches Match[]
+  match1 Match[] @relation("match1")
+  match2 Match[] @relation("match2")
 
   mensajesEnviados Mensaje[]
 }
@@ -83,6 +89,7 @@ model Dueno {
   usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 
   perros Perro[] // Un dueño tiene muchos perros
+  fotos Foto[]
 }
 
 model Perro {
@@ -94,6 +101,16 @@ model Perro {
 
   duenoId String
   dueno   Dueno  @relation(fields: [duenoId], references: [id], onDelete: Cascade)
+}
+
+model Foto {
+  id    String    @id @default(uuid())
+  orden Int
+  url   String
+  tipo  TipoFoto
+
+  duenoId String
+  dueno Dueno @relation(fields: [duenoId], references: [id], onDelete: Cascade)
 }
 
 model Swipe {
@@ -127,13 +144,14 @@ model Match {
   id    String    @id @default(uuid())
   fecha DateTime  @default(now())
 
-  usuariosId String[]
-  usuarios   Usuario @relation(fields: [usuariosId], references: [id], onDelete: Cascade)
+  usuario1Id String
+  usuario1   Usuario @relation(name: "match1",fields: [usuario1Id], references: [id], onDelete: Cascade)
+  usuario2Id String
+  usuario2 Usuario @relation(name: "match2",fields: [usuario2Id], references: [id], onDelete: Cascade)
 
   chat Chat?
 }
 
-//duda, donde deberia guardarse esto
 model Chat {
   id    String    @id @default(uuid())
   fecha_creacion  DateTime  @default(now())
