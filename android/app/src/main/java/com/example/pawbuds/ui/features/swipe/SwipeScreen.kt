@@ -15,8 +15,8 @@ import com.example.pawbuds.ui.features.swipe.components.SwipeCard
 fun SwipeScreen(
     onNavigateToChatList: () -> Unit,
     onNavigateToProfile: () -> Unit,
-    onNavigateToNotification: () -> Unit,
-    onNavigateToSettings: () -> Unit
+    onNavigateToNotification: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {}
 ) {
     Scaffold(
         topBar = { TopBar(

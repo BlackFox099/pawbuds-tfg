@@ -1,21 +1,25 @@
 package com.example.pawbuds.ui.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.pawbuds.ui.features.swipe.SwipeScreen
 
 @Composable
 fun NavGraph(
-    startDestination: String = Screen.Login.route
+    startDestination: String = Screen.Swipe.route
 ) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        Modifier.fillMaxSize()
     ) {
         // Pantalla de Login
         composable(route = Screen.Login.route) {
@@ -70,7 +74,6 @@ fun NavGraph(
 
 //provisional
 @Composable fun LoginScreen(onLoginSuccess: () -> Unit) { /* Ya la rellenaremos */ }
-@Composable fun SwipeScreen(onNavigateToChatList: () -> Unit, onNavigateToProfile: () -> Unit) { /* ... */ }
 @Composable fun ChatListScreen(onChatClick: (String) -> Unit, onNavigateToSwipe: () -> Unit) { /* ... */ }
 @Composable fun ChatDetailScreen(chatId: String, onBackClick: () -> Unit) { /* ... */ }
 @Composable fun ProfileScreen(onBackClick: () -> Unit) { /* ... */ }
