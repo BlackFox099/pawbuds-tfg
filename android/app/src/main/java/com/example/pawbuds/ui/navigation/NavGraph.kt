@@ -8,11 +8,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.pawbuds.ui.features.auth.LoginScreen
+import com.example.pawbuds.ui.features.auth.RegisterScreen
 import com.example.pawbuds.ui.features.swipe.SwipeScreen
 
 @Composable
 fun NavGraph(
-    startDestination: String = Screen.Swipe.route
+    startDestination: String = Screen.Login.route
 ) {
     val navController = rememberNavController()
 
@@ -28,6 +30,22 @@ fun NavGraph(
                     navController.navigate(Screen.Swipe.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
+                },
+                onNavigateToRegister = {
+                    navController.navigate(Screen.Register.route)
+                }
+            )
+        }
+
+        composable(route = Screen.Register.route) {
+            RegisterScreen(
+                onRegisterSuccess = {
+                    navController.navigate(Screen.Swipe.route) {
+                        popUpTo(Screen.Register.route) { inclusive = true }
+                    }
+                },
+                onNavigateToLogin = {
+                    navController.navigate(Screen.Login.route)
                 }
             )
         }
@@ -73,7 +91,6 @@ fun NavGraph(
 
 
 //provisional
-@Composable fun LoginScreen(onLoginSuccess: () -> Unit) { /* Ya la rellenaremos */ }
 @Composable fun ChatListScreen(onChatClick: (String) -> Unit, onNavigateToSwipe: () -> Unit) { /* ... */ }
 @Composable fun ChatDetailScreen(chatId: String, onBackClick: () -> Unit) { /* ... */ }
 @Composable fun ProfileScreen(onBackClick: () -> Unit) { /* ... */ }
