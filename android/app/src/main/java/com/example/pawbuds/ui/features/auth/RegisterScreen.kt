@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -37,6 +38,7 @@ fun RegisterScreen(
     var password by remember { mutableStateOf("") }
     var password2 by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -93,7 +95,7 @@ fun RegisterScreen(
         OutlinedTextField(
             value = password2,
             onValueChange = { password2 = it },
-            label = { Text("Contraseña") },
+            label = { Text("Repetir contraseña") },
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             modifier = Modifier.fillMaxWidth(),
@@ -102,6 +104,14 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage!!,
+                color = MaterialTheme.colorScheme.error, // Rojo de Material 3
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
         // Botón de Iniciar Sesión
         Button(
             onClick = {

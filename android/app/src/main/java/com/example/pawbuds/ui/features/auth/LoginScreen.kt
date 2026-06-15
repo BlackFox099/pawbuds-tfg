@@ -21,6 +21,7 @@ fun LoginScreen(
     // Variables de estado que guardan lo que el usuario escribe
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -56,6 +57,14 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage!!,
+                color = MaterialTheme.colorScheme.error, // Rojo de Material 3
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
         // Botón de Iniciar Sesión
         Button(
             onClick = {
