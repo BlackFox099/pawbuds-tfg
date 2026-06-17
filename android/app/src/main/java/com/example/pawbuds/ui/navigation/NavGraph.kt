@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.pawbuds.ui.features.auth.LoginScreen
 import com.example.pawbuds.ui.features.auth.RegisterScreen
+import com.example.pawbuds.ui.features.profile.ProfileScreen
 import com.example.pawbuds.ui.features.swipe.SwipeScreen
 
 @Composable
@@ -83,7 +84,15 @@ fun NavGraph(
         // Pantalla de perfil
         composable(route = Screen.Profile.route) {
             ProfileScreen(
-                onBackClick = { navController.popBackStack() }
+                onNavigateToSwipe = { navController.navigate(Screen.Swipe.route) },
+                onNavigateToChatList = { navController.navigate(Screen.ChatList.route) },
+                onNavigateToNotification = { /* TODO: Ir a notificaciones */ },
+                onNavigateToSettings = { /* TODO: Ir a ajustes */ },
+                onNavigateToInfoDueno = {/* TODO: Ir a la pantalla del dueño */},
+                onNavigateToInfoPerro = {/* TODO: Ir a la pantalla del perro */},
+                onNavigateToLogin = { navController.navigate(Screen.Login.route) {
+                    popUpTo(navController.graph.id) { inclusive = true }
+                } }
             )
         }
     }
@@ -93,4 +102,3 @@ fun NavGraph(
 //provisional
 @Composable fun ChatListScreen(onChatClick: (String) -> Unit, onNavigateToSwipe: () -> Unit) { /* ... */ }
 @Composable fun ChatDetailScreen(chatId: String, onBackClick: () -> Unit) { /* ... */ }
-@Composable fun ProfileScreen(onBackClick: () -> Unit) { /* ... */ }

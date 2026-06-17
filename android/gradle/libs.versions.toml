@@ -16,6 +16,7 @@ room = "2.6.1"
 socketIo = "2.1.0"
 coil = "2.5.0"
 foundation = "1.11.2"
+ui = "1.11.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +51,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 socket-io-client = { group = "io.socket", name = "socket.io-client", version.ref = "socketIo" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 
 
 [plugins]
