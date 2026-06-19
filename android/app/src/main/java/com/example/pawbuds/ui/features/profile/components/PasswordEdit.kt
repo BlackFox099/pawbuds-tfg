@@ -20,10 +20,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 @Composable
 fun PasswordEdit(
-    onOldPassword: (String) -> Unit,
-    onNewPassword: (String) -> Unit,
-    onNewPassword2: (String) -> Unit,
-    onConfirmEdit: () -> Unit
+    onConfirmEdit: (String, String, String) -> Unit
 ){
 
     var oldPassword by remember { mutableStateOf("") }
@@ -38,7 +35,6 @@ fun PasswordEdit(
             value = oldPassword,
             onValueChange = { nuevoTexto ->
                 oldPassword = nuevoTexto
-                onOldPassword(nuevoTexto)
             },
             label = { Text("Contraseña actual") },
             singleLine = true,
@@ -51,7 +47,6 @@ fun PasswordEdit(
             value = newPassword1,
             onValueChange = { nuevoTexto ->
                 newPassword1 = nuevoTexto
-                onNewPassword(nuevoTexto)
             },
             label = { Text("Nueva contraseña") },
             singleLine = true,
@@ -64,7 +59,6 @@ fun PasswordEdit(
             value = newPassword2,
             onValueChange = { nuevoTexto ->
                 newPassword2 = nuevoTexto
-                onNewPassword2(nuevoTexto)
             },
             label = { Text("Repetir nueva contraseña") },
             singleLine = true,
@@ -73,7 +67,7 @@ fun PasswordEdit(
             readOnly = false,
             modifier = Modifier.fillMaxWidth()
         )
-        Button(onClick = onConfirmEdit){
+        Button(onClick = {onConfirmEdit(oldPassword, newPassword1, newPassword2)}){
             Text("Guardar")
         }
 
