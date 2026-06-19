@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 
 @Composable
 fun PasswordEdit(
@@ -35,27 +36,39 @@ fun PasswordEdit(
     ){
         OutlinedTextField(
             value = oldPassword,
-            onValueChange = { onOldPassword(oldPassword) },
+            onValueChange = { nuevoTexto ->
+                oldPassword = nuevoTexto
+                onOldPassword(nuevoTexto)
+            },
             label = { Text("Contraseña actual") },
             singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             readOnly = false,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = newPassword1,
-            onValueChange = { onNewPassword(newPassword1) },
+            onValueChange = { nuevoTexto ->
+                newPassword1 = nuevoTexto
+                onNewPassword(nuevoTexto)
+            },
             label = { Text("Nueva contraseña") },
             singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             readOnly = false,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = newPassword2,
-            onValueChange = { onNewPassword2(newPassword2) },
+            onValueChange = { nuevoTexto ->
+                newPassword2 = nuevoTexto
+                onNewPassword2(nuevoTexto)
+            },
             label = { Text("Repetir nueva contraseña") },
             singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             readOnly = false,
             modifier = Modifier.fillMaxWidth()
