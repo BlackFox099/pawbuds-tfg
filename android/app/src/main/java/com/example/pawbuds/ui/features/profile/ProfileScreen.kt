@@ -87,10 +87,8 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             if(isEditingPassword){
-                PasswordEdit(onOldPassword = {},
-                    onNewPassword = {},
-                    onNewPassword2 = {},
-                    onConfirmEdit = { isEditingPassword = false })
+                PasswordEdit(
+                    onConfirmEdit = { oldPas, newPas1, newPas2 ->isEditingPassword = false })
             } else{
                 PasswordFixed(onEditingPassword = {isEditingPassword = true})
             }

@@ -10,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.pawbuds.ui.features.auth.LoginScreen
 import com.example.pawbuds.ui.features.auth.RegisterScreen
+import com.example.pawbuds.ui.features.profile.InfoDuenoScreen
+import com.example.pawbuds.ui.features.profile.InfoPerroScreen
 import com.example.pawbuds.ui.features.profile.ProfileScreen
 import com.example.pawbuds.ui.features.swipe.SwipeScreen
 
@@ -38,6 +40,7 @@ fun NavGraph(
             )
         }
 
+        //Pantalla register
         composable(route = Screen.Register.route) {
             RegisterScreen(
                 onRegisterSuccess = {
@@ -81,6 +84,16 @@ fun NavGraph(
             )
         }
 
+        composable(
+            route = Screen.InfoDueno.route){
+            InfoDuenoScreen(onBackClick = { navController.popBackStack() })
+        }
+
+        composable(
+            route = Screen.InfoPerro.route){
+            InfoPerroScreen(onBackClick = { navController.popBackStack() })
+        }
+
         // Pantalla de perfil
         composable(route = Screen.Profile.route) {
             ProfileScreen(
@@ -88,8 +101,8 @@ fun NavGraph(
                 onNavigateToChatList = { navController.navigate(Screen.ChatList.route) },
                 onNavigateToNotification = { /* TODO: Ir a notificaciones */ },
                 onNavigateToSettings = { /* TODO: Ir a ajustes */ },
-                onNavigateToInfoDueno = {/* TODO: Ir a la pantalla del dueño */},
-                onNavigateToInfoPerro = {/* TODO: Ir a la pantalla del perro */},
+                onNavigateToInfoDueno = {navController.navigate(Screen.InfoDueno.route)},
+                onNavigateToInfoPerro = {navController.navigate(Screen.InfoPerro.route)},
                 onNavigateToLogin = { navController.navigate(Screen.Login.route) {
                     popUpTo(navController.graph.id) { inclusive = true }
                 } }
